@@ -1,0 +1,26 @@
+name: Download DESI BAO Params
+
+on:
+  workflow_dispatch:
+
+jobs:
+  get_desi_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Download DESI BAO data
+        run: |
+          wget -r -np -nH --cut-dirs=5 --reject="index.html*" \
+            https://data.desi.lbl.gov/public/dr1/vac/dr1/bao-cosmo-params/
+          mkdir -p desi-data
+          mv bao-cosmo-params/* desi-data/
+
+      - name: Commit files
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "GitHub Action"
+          git add .
+          git commit -m "Updated DESI BAO data" || echo "No changes"
+          git push
