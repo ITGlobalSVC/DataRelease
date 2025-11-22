@@ -10,12 +10,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Download DESI BAO data
-        run: |
-          wget -r -np -nH --cut-dirs=5 --reject="index.html*" \
-            https://data.desi.lbl.gov/public/dr1/vac/dr1/bao-cosmo-params/
-          mkdir -p desi-data
-          mv bao-cosmo-params/* desi-data/
+- name: Download DESI BAO data
+  run: |
+    wget -r -np -nH --cut-dirs=5 --reject="index.html*" -e robots=off \
+      https://data.desi.lbl.gov/public/dr1/vac/dr1/bao-cosmo-params/
+    mkdir -p desi-data
+    mv v1.0/* desi-data/
 
       - name: Commit files
         run: |
